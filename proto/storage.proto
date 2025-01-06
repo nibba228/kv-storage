@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package storage;
+
+option go_package = "/storage";
+import "google/protobuf/empty.proto";
+
+service Storage {
+  rpc Get (Key) returns (Value) {}
+  rpc Update (KeyValue) returns (google.protobuf.Empty) {}
+  rpc Delete (Key) returns (google.protobuf.Empty) {}
+}
+
+message Key {
+  string key = 1;
+}
+
+message Value {
+  string value = 1;
+}
+
+message KeyValue {
+  string key = 1;
+  string value = 2;
+}
