@@ -1,5 +1,4 @@
 vendor/
-proto/storage/compile.sh
 mysql_password.txt
 mysql_root_password.txt
 .env
