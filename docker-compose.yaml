@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql
+    volumes:
+      - kv-storage-mysql:/var/lib/mysql
+    ports:
+      - "8000:5432"
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_USER: storage
+      MYSQL_DATABASE: storage
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    secrets:
+      - mysql_password
+      - mysql_root_password
+
+  app:
+    image: kv-storage/storage
+    build: ./storage
+    ports:
+      - "8080:8080"
+    environment:
+      STORAGE_DB_HOST: mysql
+      STORAGE_DB: storage
+      STORAGE_DB_USER: storage
+      STORAGE_DB_PASSWORD: ${STORAGE_DB_PASSWORD}
+    depends_on:
+      - mysql
+
+
+volumes:
+  kv-storage-mysql:
+    driver: local
+
+secrets:
+  mysql_root_password:
+    file: ./mysql_root_password.txt
+  mysql_password:
+    file: ./mysql_password.txt

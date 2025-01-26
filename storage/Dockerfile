@@ -1,13 +1,13 @@
-FROM grpc/go:latest
+FROM golang
 
-WORKDIR /storage
+WORKDIR /app
 
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
+ENV GO111MODULE=on
 
 COPY . .
 
-CMD go run main.go
+RUN go mod download
+
+CMD ["go", "run", "/app/main.go", "/app/db.go"]
 
 EXPOSE 8080
