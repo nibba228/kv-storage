@@ -15,7 +15,7 @@ func Get(ctx context.Context, db *sql.DB, user_id, key string) (string, error) {
   err := db.QueryRowContext(ctx, query, user_id, key).Scan(&value)
 
   if err == sql.ErrNoRows {
-    log.Printf("No value for user %v and key %v: ", user_id, key, err)
+    log.Printf("No value for user %s and key %s: %v", user_id, key, err)
     return "", err
   }
 
